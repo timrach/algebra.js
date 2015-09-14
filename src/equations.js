@@ -13,16 +13,16 @@ var Equation = function(lhs, rhs) {
         } else if (rhs instanceof Fraction || isInt(rhs)) {
             this.rhs = new Expression(rhs);
         } else {
-            throw "InvalidArgument";
+            throw new TypeError("Invalid Argument");
         }
     } else {
-        throw "InvalidArgument";
+        throw new TypeError("Invalid Argument");
     }
 };
 
 Equation.prototype.solveFor = function(variable) {
     if (!this.lhs._hasVariable(variable) && !this.rhs._hasVariable(variable)) {
-        throw "InvalidArgument";
+        throw new TypeError("Invalid Argument");
     }
 
     // If the equation is linear and the variable in question can be isolated through arithmetic, solve.
@@ -58,7 +58,7 @@ Equation.prototype.solveFor = function(variable) {
             if (newLhs.constant().equalTo(newRhs.constant())) {
                 return new Fraction(1, 1);
             } else {
-                throw "NoSolution";
+                throw new EvalError("No Solution");
             }
         }
 
@@ -82,7 +82,7 @@ Equation.prototype.solveFor = function(variable) {
             if (newLhs.constant().valueOf() === 0) {
                 return [new Fraction(1, 1)];
             } else {
-                throw "NoSolution";
+                throw new EvalError("No Solution");
             }
 
         // Otherwise, check degree and solve.
